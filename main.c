@@ -4,8 +4,8 @@
 
 void clearScreen()
 {
-  const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
-  write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
+  // const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
+  // write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
 }
 
 int MainMenu() {
@@ -21,9 +21,6 @@ int MainMenu() {
 
   return (int) i;
 }
-
-
-
 
 int ManageClientsMenu() {
   char j;
@@ -61,12 +58,11 @@ int ManageAccountsMenu() {
 }
 
 
-
 int main(void) {
   int menu_i, menu_j, menu_k;
   bool run = true;
 
-  while(run) {
+  
     menu_i = MainMenu();
 
     switch(menu_i) {
@@ -79,7 +75,7 @@ int main(void) {
       case (int) 't':
         menu_j = ManageAccountsMenu();
     }
-  }
+  
   
 
 }
