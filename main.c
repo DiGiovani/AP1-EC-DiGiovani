@@ -6,16 +6,6 @@
 #include "libs/client.h"
 #include "libs/accounts.h"
 
-int testmain()
-{
-    // char *name = "alexsa teste", *tel = "62992876100", *cpf = "41778084826", *address = "teste";
-    // CreateClient(name, cpf, tel, address);
-    // DeleteClient();
-    // ListClients();
-    CreateClient();
-    return 0;
-}
-
 int main(void)
 {
     char menu_i, menu_j, menu_k;
