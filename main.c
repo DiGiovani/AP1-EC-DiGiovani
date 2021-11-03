@@ -1,81 +1,148 @@
 #include "stdio.h"
-#include "stdbool.h"
-#include <unistd.h>
+#include "stdlib.h"
+#include "string.h"
+#include "libs/menus.h"
+#include "libs/database.h"
+#include "libs/client.h"
+#include "libs/accounts.h"
 
-void clearScreen()
+int testmain()
 {
-  // const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
-  // write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
+    // char *name = "alexsa teste", *tel = "62992876100", *cpf = "41778084826", *address = "teste";
+    // CreateClient(name, cpf, tel, address);
+    // DeleteClient();
+    // ListClients();
+    CreateClient();
+    return 0;
 }
 
-int MainMenu() {
-  char i;
-  clearScreen();
+int main(void)
+{
+    char menu_i, menu_j, menu_k;
+    int step = 0, run = 0;
+    OpenDatabase();
 
-  printf("=============== Bem vindo! ===============\n");
-  printf("Digite um comando para prosseguir: \n");
-  printf("C - Gerenciar Clientes\n");
-  printf("T - Gerenciar Contas\n");
-  printf("S - Sair\n");
-  scanf("%c", &i);
+    do
+    {
+        // bem vindo
+        if (step == 0)
+        {
+            MainMenu();
+            scanf(" %c", &menu_i);
+            menu_i = tolower(menu_i);
+            step = 1;
+        }
 
-  return (int) i;
-}
+        if (step == 1)
+        {
+            switch (menu_i)
+            {
+                // clientes
+            case (int)'c':
+                ManageClientsMenu();
+                scanf(" %c", &menu_j);
+                menu_j = tolower(menu_j);
+                step = 2;
+                break;
+                // contas
+            case (int)'t':
+                ManageAccountsMenu();
+                scanf(" %c", &menu_j);
+                menu_j = tolower(menu_j);
+                step = 3;
+                break;
+            case (int)'s':
+                run = 1;
+                step = 10;
+                break;
+            }
+        }
+        // clientes
+        if (step == 2)
+        {
+            switch ((int)menu_j)
+            {
+            case (int)'c':
+                CreateClient();
+                step = 4;
 
-int ManageClientsMenu() {
-  char j;
+                break;
+            case (int)'l':
+                ListClients();
+                step = 4;
 
-  clearScreen();
-  printf("=============== Gerenciar Clientes ===============\n");
-  printf("Digite um comando para prosseguir: ");
-  printf("C - Cadastrar um cliente\n");
-  printf("L - Listar todos os clientes cadastrados\n");
-  printf("B - Buscar cliente já cadastrado\n");
-  printf("A - Atualizar um cliente cadastrado\n");
-  printf("E - Excluir um cliente cadastrado\n");
-  printf("S - Sair\n");
+                break;
+            case (int)'b':
+                ShowClient();
+                step = 4;
 
-  scanf("%c", &j);
+                break;
+            case (int)'a':
+                UpdateClients();
+                step = 4;
 
-  return (int) j;
-}
+                break;
+            case (int)'e':
+                DeleteClient();
+                step = 4;
 
-int ManageAccountsMenu() {
-  char j;
-  clearScreen();
-  printf("=============== Gerenciar Contas ===============\n");
-  printf("Digite um comando para prosseguir: ");
-  printf("C - Cadastrar um cliente\n");
-  printf("L - Listar todos os clientes cadastrados\n");
-  printf("B - Buscar cliente já cadastrado\n");
-  printf("A - Atualizar um cliente cadastrado\n");
-  printf("E - Excluir um cliente cadastrado\n");
-  printf("S - Sair\n");
+                break;
+            case (int)'s':
+                step = 1;
+                break;
+            default:
+                printf("Valor: %c", menu_j);
+            }
+        }
+        // contas
+        if (step == 3)
+        {
+            switch ((int)menu_j)
+            {
+            case (int)'r':
+                ListAccounts();
+                step = 4;
 
-  scanf("%c", &j);
+                break;
+            case (int)'c':
+                fflush(stdin);
+                CreateAccount();
+                step = 4;
+                break;
+            case (int)'l':
+                ListClientAccounts();
+                step = 4;
 
-  return (int) j;
-}
+                break;
 
+            case (int)'s':
+                step = 1;
+                break;
+            default:
+                printf("Valor: %c", menu_j);
+            }
+        }
+        if (step == 4)
+        {
+            fflush(stdin);
+            EndMenu();
+            scanf(" %c", menu_k);
+            menu_k = tolower(menu_k);
+            step = 5;
+        }
 
-int main(void) {
-  int menu_i, menu_j, menu_k;
-  bool run = true;
+        switch ((int)menu_k)
+        {
+        case 'r':
+            break;
+        case 's':
+            step = 10;
+            menu_j = 0;
+            menu_k = 0;
+            run = 1;
+            break;
+        }
 
-  
-    menu_i = MainMenu();
-
-    switch(menu_i) {
-      case (int) 'c':
-      case (int) 'C':
-        menu_j = ManageClientsMenu();
-        break;
-
-      case (int) 'T':
-      case (int) 't':
-        menu_j = ManageAccountsMenu();
-    }
-  
-  
-
+        step = 0;
+    } while (run == 0);
 }
